@@ -134012,8 +134012,8 @@ if(!h&&!B.b.n(m.toLowerCase(),"/v1"))i="api/v1/"+A.m(J.qq(j,"/")?J.bO2(j,1):j)}s
 return A.c(a0.KF(),$async$j0)
 case 10:g=a8
 if(J.aI(g)!==0)if(J.nB(g,"?")){f=J.nB(m,"/")?A.m(m)+A.m(i):A.m(m)+"/"+A.m(i)
-a5.sHb(g)
-a5.cx=f}else{e=J.nB(g,"/")?g:A.m(g)+"/"
+a5.sHb("")
+a5.cx=A.m(g)+A.m(f)}else{e=J.nB(g,"/")?g:A.m(g)+"/"
 a5.sHb(e)
 a5.cx=J.qq(i,"/")?i:"/"+A.m(i)
 a0=a5.b
