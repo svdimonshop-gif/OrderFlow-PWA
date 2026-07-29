@@ -36,4 +36,25 @@ if (!window._flutter) {
 _flutter.buildConfig = {"engineRevision":"a10d8ac38de835021c8d2f920dbf50a920ccc030","builds":[{"compileTarget":"dart2js","renderer":"canvaskit","mainJsPath":"main.dart.js"},{}]};
 
 
-_flutter.loader.load();
+// Custom loader: hide the inline #of-splash once Flutter has painted its first
+// frame. We add the `of-loaded` class to <html>; index.html CSS fades the splash
+// out. Falls back to a safety timeout so the splash never gets stuck if the
+// first-frame callback never fires.
+_flutter.loader.load({
+  onAppRunnerCreated: (appRunner) => {
+    appRunner.runApp();
+    // Give Flutter a moment to mount, then mark as loaded. The first paint
+    // happens shortly after runApp(); a fixed delay is the most robust hook
+    // across Flutter web loader versions.
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        document.documentElement.classList.add('of-loaded');
+      });
+    });
+  },
+});
+
+// Safety net: never leave the splash up for more than 8s, whatever happens.
+window.setTimeout(() => {
+  document.documentElement.classList.add('of-loaded');
+}, 8000);

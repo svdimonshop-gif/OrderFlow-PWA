@@ -19,7 +19,12 @@
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
   <meta name="description" content="OrderFlow — робочий застосунок для збирання та видачі замовлень.">
-  <meta name="theme-color" content="#F7F8F2">
+
+  <!-- Theme color: media-aware so the browser chrome / PWA top bar matches the
+       OS color scheme before Flutter loads. The runtime value is also updated
+       from Dart (web_theme_color.dart) when the user toggles theme manually. -->
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F7F8F2">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#06080C">
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
@@ -32,8 +37,44 @@
 
   <title>OrderFlow</title>
   <link rel="manifest" href="manifest.json">
+
+  <!-- Inline splash: shown until Flutter paints its first frame.
+       Background and logo adapt to the OS color scheme via CSS so there is no
+       light flash in dark mode. flutter_bootstrap.js hides #splash afterwards. -->
+  <style>
+    #of-splash {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #F7F8F2;
+      z-index: 9999;
+      transition: opacity 0.25s ease;
+    }
+    #of-splash img {
+      width: 128px;
+      height: 128px;
+      /* Logo is a solid blue circle with transparency; no border/outline. */
+      border-radius: 28%;
+      object-fit: contain;
+    }
+    @media (prefers-color-scheme: dark) {
+      #of-splash { background: #06080C; }
+    }
+    /* flutter_bootstrap.js adds this class to <html> on first frame. */
+    html.of-loaded #of-splash {
+      opacity: 0;
+      pointer-events: none;
+    }
+  </style>
 </head>
 <body>
+  <!-- Pre-Flutter splash. -->
+  <div id="of-splash">
+    <img src="icons/Icon-512.png" alt="OrderFlow">
+  </div>
+
   <!--
     OrderFlow web helpers for QR decoding from a picked image.
 
