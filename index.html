@@ -76,21 +76,7 @@
     <img src="icons/Icon-512.png" alt="OrderFlow">
   </div>
 
-  <!--
-    OrderFlow web helpers for QR decoding from a picked image.
-
-    `mobile_scanner` cannot decode images on the web, so we expose the native
-    browser BarcodeDetector API (Chromium browsers) to Dart via these globals.
-  -->
-  <script>
-    window.OrderFlowWeb = {
-      // `typeof BarcodeDetector !== 'undefined'`
-      __isBarcodeDetectorSupported: function () {
-        return typeof window.BarcodeDetector !== 'undefined'
-            && typeof window.createImageBitmap === 'function';
-      },
-    };
-  </script>
+  <script src="orderflow_web.js"></script>
 
   <!--
     You can customize the "flutter_bootstrap.js" script.

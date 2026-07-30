@@ -17,7 +17,7 @@
  */
 
 // Bump this on every deploy. Stale caches (older versions) are wiped on activate.
-const CACHE_VERSION = '2026-07-29-3';
+const CACHE_VERSION = '2026-07-30-1';
 const CACHE = `orderflow-pwa-${CACHE_VERSION}`;
 
 // Core app shell — precached on install for offline support.
@@ -27,6 +27,7 @@ const SHELL = [
   './flutter_bootstrap.js',
   './flutter.js',
   './main.dart.js',
+  './orderflow_web.js',
   './manifest.json',
   './favicon.png',
   './sqlite3.wasm',
@@ -40,6 +41,7 @@ const NETWORK_FIRST = [
   'index.html',
   'flutter_bootstrap.js',
   'main.dart.js',
+  'orderflow_web.js',
   'drift_worker.dart.js',
 ];
 
