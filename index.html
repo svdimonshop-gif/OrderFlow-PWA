@@ -31,7 +31,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="OrderFlow">
-  <link rel="apple-touch-icon" href="icons/Icon-maskable-192.png">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
@@ -39,9 +39,8 @@
   <title>OrderFlow</title>
   <link rel="manifest" href="manifest.json">
 
-  <!-- Inline splash: shown until Flutter paints its first frame.
-       Background and logo adapt to the OS color scheme via CSS so there is no
-       light flash in dark mode. flutter_bootstrap.js hides #splash afterwards. -->
+  <!-- Inline bridge: shown until Flutter paints its first frame.
+       Keep it iconless so the browser/PWA preloader never shows a square logo. -->
   <style>
     #of-splash {
       position: fixed;
@@ -52,13 +51,6 @@
       background: #F7F8F2;
       z-index: 9999;
       transition: opacity 0.25s ease;
-    }
-    #of-splash img {
-      width: 128px;
-      height: 128px;
-      /* Logo is a solid blue circle with transparency; no border/outline. */
-      border-radius: 28%;
-      object-fit: contain;
     }
     @media (prefers-color-scheme: dark) {
       #of-splash { background: #06080C; }
@@ -71,10 +63,8 @@
   </style>
 </head>
 <body>
-  <!-- Pre-Flutter splash. -->
-  <div id="of-splash">
-    <img src="icons/Icon-512.png" alt="OrderFlow">
-  </div>
+  <!-- Pre-Flutter bridge. The branded splash is Flutter-rendered. -->
+  <div id="of-splash" aria-hidden="true"></div>
 
   <script src="orderflow_web.js"></script>
 
