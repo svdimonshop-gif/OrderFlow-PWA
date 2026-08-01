@@ -17,7 +17,7 @@
  */
 
 // Bump this on every deploy. Stale caches (older versions) are wiped on activate.
-const CACHE_VERSION = '2026-08-01-1';
+const CACHE_VERSION = '2026-08-01-2';
 const CACHE = `orderflow-pwa-${CACHE_VERSION}`;
 
 // Core app shell — precached on install for offline support.
@@ -32,8 +32,11 @@ const SHELL = [
   './favicon.png',
   './sqlite3.wasm',
   './drift_worker.dart.js',
-  './icons/Icon-192.png',
-  './icons/Icon-512.png',
+  './icons/Icon-any-v2-192.png',
+  './icons/Icon-any-v2-512.png',
+  './icons/Icon-maskable-v2-192.png',
+  './icons/Icon-maskable-v2-512.png',
+  './icons/apple-touch-icon-v2-180.png',
 ];
 
 // Network-first for these (always pick up new deploys immediately).
