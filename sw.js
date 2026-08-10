@@ -17,7 +17,7 @@
  */
 
 // Bump this on every deploy. Stale caches (older versions) are wiped on activate.
-const CACHE_VERSION = '2.7.7-13';
+const CACHE_VERSION = '2.7.8-14';
 const CACHE = `orderflow-pwa-${CACHE_VERSION}`;
 
 // Core app shell — precached on install for offline support.
