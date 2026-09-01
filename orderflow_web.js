@@ -1,7 +1,100 @@
 window.OrderFlowWeb = {
-  __isBarcodeDetectorSupported: function () {
-    return typeof window.BarcodeDetector !== 'undefined'
-        && typeof window.createImageBitmap === 'function';
+  _scannerDecoderPromise: null,
+  _scannerDecoderReady: false,
+
+  prepareScannerDecoder: function () {
+    if (this._scannerDecoderReady) return Promise.resolve(true);
+    if (this._scannerDecoderPromise) return this._scannerDecoderPromise;
+
+    const scriptId = 'mobile-scanner-zxing-wasm';
+    const scriptUrl = new URL(
+      'vendor/zxing-wasm-3.1.1/reader.js',
+      document.baseURI,
+    ).href;
+    const wasmUrl = new URL(
+      'vendor/zxing-wasm-3.1.1/zxing_reader.wasm',
+      document.baseURI,
+    ).href;
+
+    this._scannerDecoderPromise = new Promise((resolve) => {
+      const prepareModule = async () => {
+        try {
+          if (!window.ZXingWASM ||
+              typeof window.ZXingWASM.prepareZXingModule !== 'function') {
+            throw new Error('ZXingWASM is unavailable');
+          }
+
+          await window.ZXingWASM.prepareZXingModule({
+            overrides: {
+              locateFile: (path, prefix) =>
+                path.endsWith('.wasm') ? wasmUrl : prefix + path,
+            },
+            fireImmediately: true,
+          });
+          this._scannerDecoderReady = true;
+          resolve(true);
+        } catch (_) {
+          this._scannerDecoderPromise = null;
+          this._scannerDecoderReady = false;
+          const failedScript = document.getElementById(scriptId);
+          if (failedScript) failedScript.remove();
+          resolve(false);
+        }
+      };
+
+      const existingScript = document.getElementById(scriptId);
+      if (existingScript) {
+        if (window.ZXingWASM) {
+          void prepareModule();
+        } else {
+          existingScript.addEventListener('load', prepareModule, { once: true });
+          existingScript.addEventListener('error', () => {
+            existingScript.remove();
+            this._scannerDecoderPromise = null;
+            resolve(false);
+          }, { once: true });
+        }
+        return;
+      }
+
+      const script = document.createElement('script');
+      script.id = scriptId;
+      script.src = scriptUrl;
+      script.async = true;
+      script.crossOrigin = 'anonymous';
+      script.addEventListener('load', prepareModule, { once: true });
+      script.addEventListener('error', () => {
+        script.remove();
+        this._scannerDecoderPromise = null;
+        resolve(false);
+      }, { once: true });
+      document.head.appendChild(script);
+    });
+
+    return this._scannerDecoderPromise;
+  },
+
+  decodeScannerImage: async function (bytes) {
+    if (!await this.prepareScannerDecoder()) return '';
+
+    try {
+      const image = new Blob([bytes], { type: 'image/*' });
+      const results = await window.ZXingWASM.readBarcodesFromImageFile(image, {
+        formats: [
+          'QRCode', 'DataMatrix', 'EAN13', 'EAN8', 'UPCA', 'UPCE',
+          'Code128', 'ITF14',
+        ],
+        tryHarder: true,
+        tryRotate: true,
+        tryInvert: true,
+      });
+      const first = results.find((result) =>
+        typeof result.text === 'string' && result.text.trim().length > 0,
+      );
+      return first ? first.text.trim() : '';
+    } catch (_) {
+      return '';
+    }
   },
 
   _scannerTrack: null,

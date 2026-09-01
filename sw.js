@@ -16,9 +16,13 @@
  * of a stale build after an update.
  */
 
-// Bump this on every deploy. Stale caches (older versions) are wiped on activate.
-const CACHE_VERSION = '2.7.13-19';
-const CACHE = `orderflow-pwa-${CACHE_VERSION}`;
+// Replaced from pubspec.yaml by tools/build_pwa_preview.ps1. Cache names are
+// scope-isolated, so a preview worker cannot replace production PWA storage.
+const CACHE_VERSION = '2.7.15-21';
+const SCOPE_PATH = new URL(self.registration.scope).pathname;
+const SCOPE_KEY = SCOPE_PATH.replace(/[^a-zA-Z0-9_-]+/g, '_');
+const CACHE_PREFIX = `orderflow-pwa-${SCOPE_KEY}`;
+const CACHE = `${CACHE_PREFIX}-${CACHE_VERSION}`;
 
 // Core app shell — precached on install for offline support.
 const SHELL = [
@@ -52,7 +56,13 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE).then((cache) => cache.addAll(SHELL)).catch(() => {}),
   );
-  self.skipWaiting();
+  // A first install may activate immediately. An update waits for an explicit
+  // user action, so it cannot reload a scanner or an in-flight mutation.
+  if (!self.registration.active) self.skipWaiting();
+});
+
+self.addEventListener('message', (event) => {
+  if (event.data?.type === 'OF_ACTIVATE_UPDATE') self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
@@ -61,7 +71,17 @@ self.addEventListener('activate', (event) => {
       .keys()
       .then((keys) =>
         Promise.all(
-          keys.filter((key) => key !== CACHE).map((key) => caches.delete(key)),
+          keys
+            .filter((key) => {
+              if (key === CACHE) return false;
+              if (key.startsWith(`${CACHE_PREFIX}-`)) return true;
+
+              // The pre-2.7.14 production worker used an unscoped cache name.
+              // Only the production scope may remove that legacy cache.
+              return SCOPE_PATH === '/OrderFlow-PWA/' &&
+                  /^orderflow-pwa-\d+\.\d+\.\d+-\d+$/.test(key);
+            })
+            .map((key) => caches.delete(key)),
         ),
       )
       .then(() => self.clients.claim())

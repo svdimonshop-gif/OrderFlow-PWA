@@ -2,19 +2,10 @@
 <html>
 <head>
   <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
+    A relative base keeps the exact production artifact portable between the
+    isolated HTTPS preview path and the live GitHub Pages path.
   -->
-  <base href="/OrderFlow-PWA/">
+  <base href="./">
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -109,6 +100,33 @@
       opacity: 0;
       pointer-events: none;
     }
+    #of-update {
+      position: fixed;
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      z-index: 10000;
+      display: none;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-radius: 14px;
+      color: #F4F7FB;
+      background: #1A2230;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, .35);
+      font: 500 14px/1.35 system-ui, sans-serif;
+    }
+    #of-update button {
+      flex: none;
+      border: 0;
+      border-radius: 10px;
+      padding: 8px 12px;
+      color: #061018;
+      background: #41D9FF;
+      font: inherit;
+      cursor: pointer;
+    }
     @media (prefers-reduced-motion: reduce) {
       #of-splash { transition: none; }
     }
@@ -118,6 +136,10 @@
   <!-- Pre-Flutter bridge matching the Flutter splash. -->
   <div id="of-splash" aria-hidden="true">
     <img src="icons/Icon-any-v2-512.png" alt="">
+  </div>
+  <div id="of-update" role="status" aria-live="polite">
+    <span>Доступне оновлення. Завершіть поточну дію, потім оновіть застосунок.</span>
+    <button type="button">Оновити</button>
   </div>
 
   <script src="orderflow_web.js"></script>
@@ -133,7 +155,35 @@
   <script src="flutter_bootstrap.js" async></script>
   <script>
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => navigator.serviceWorker.register('sw.js'));
+      window.addEventListener('load', async () => {
+        const banner = document.getElementById('of-update');
+        const button = banner.querySelector('button');
+        let waitingWorker = null;
+
+        const showUpdate = (worker) => {
+          waitingWorker = worker;
+          banner.style.display = 'flex';
+        };
+        button.addEventListener('click', () => {
+          if (waitingWorker) waitingWorker.postMessage({ type: 'OF_ACTIVATE_UPDATE' });
+        });
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          // This only follows an explicit button press for an update.
+          window.location.reload();
+        });
+
+        const registration = await navigator.serviceWorker.register('sw.js');
+        if (registration.waiting) showUpdate(registration.waiting);
+        registration.addEventListener('updatefound', () => {
+          const worker = registration.installing;
+          if (!worker) return;
+          worker.addEventListener('statechange', () => {
+            if (worker.state === 'installed' && navigator.serviceWorker.controller) {
+              showUpdate(worker);
+            }
+          });
+        });
+      });
     }
   </script>
 </body>
