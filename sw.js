@@ -18,7 +18,7 @@
 
 // Replaced from pubspec.yaml by tools/build_pwa_preview.ps1. Cache names are
 // scope-isolated, so a preview worker cannot replace production PWA storage.
-const CACHE_VERSION = '2.7.15-21';
+const CACHE_VERSION = '2.7.16-22';
 const SCOPE_PATH = new URL(self.registration.scope).pathname;
 const SCOPE_KEY = SCOPE_PATH.replace(/[^a-zA-Z0-9_-]+/g, '_');
 const CACHE_PREFIX = `orderflow-pwa-${SCOPE_KEY}`;
