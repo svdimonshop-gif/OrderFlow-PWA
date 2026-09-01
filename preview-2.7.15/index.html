@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!--
+    A relative base keeps the exact production artifact portable between the
+    isolated HTTPS preview path and the live GitHub Pages path.
+  -->
+  <base href="./">
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="OrderFlow — робочий застосунок для збирання та видачі замовлень.">
+
+  <!-- The launch color matches the manifest. Flutter updates it after startup. -->
+  <meta name="theme-color" content="#06080C">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="OrderFlow">
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon-v2-180.png">
+  <link rel="preload" as="image" href="icons/Icon-any-v2-512.png">
+
+  <!-- iOS/iPadOS Home Screen launch images. -->
+  <link rel="apple-touch-startup-image" href="ios-launch/320x568-2x-portrait.png" media="screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="ios-launch/320x568-2x-landscape.png" media="screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="ios-launch/375x667-2x-portrait.png" media="screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="ios-launch/375x667-2x-landscape.png" media="screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="ios-launch/414x736-3x-portrait.png" media="screen and (device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="ios-launch/414x736-3x-landscape.png" media="screen and (device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="ios-launch/375x812-3x-portrait.png" media="screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="ios-launch/375x812-3x-landscape.png" media="screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="ios-launch/414x896-2x-portrait.png" media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="ios-launch/414x896-2x-landscape.png" media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="ios-launch/414x896-3x-portrait.png" media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="ios-launch/414x896-3x-landscape.png" media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="ios-launch/390x844-3x-portrait.png" media="screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="ios-launch/390x844-3x-landscape.png" media="screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="ios-launch/428x926-3x-portrait.png" media="screen and (device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="ios-launch/428x926-3x-landscape.png" media="screen and (device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="ios-launch/393x852-3x-portrait.png" media="screen and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="ios-launch/393x852-3x-landscape.png" media="screen and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="ios-launch/430x932-3x-portrait.png" media="screen and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="ios-launch/430x932-3x-landscape.png" media="screen and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="ios-launch/402x874-3x-portrait.png" media="screen and (device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="ios-launch/402x874-3x-landscape.png" media="screen and (device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="ios-launch/440x956-3x-portrait.png" media="screen and (device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="ios-launch/440x956-3x-landscape.png" media="screen and (device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="ios-launch/744x1133-2x-portrait.png" media="screen and (device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="ios-launch/744x1133-2x-landscape.png" media="screen and (device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="ios-launch/768x1024-2x-portrait.png" media="screen and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="ios-launch/768x1024-2x-landscape.png" media="screen and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="ios-launch/810x1080-2x-portrait.png" media="screen and (device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="ios-launch/810x1080-2x-landscape.png" media="screen and (device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="ios-launch/834x1112-2x-portrait.png" media="screen and (device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="ios-launch/834x1112-2x-landscape.png" media="screen and (device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="ios-launch/820x1180-2x-portrait.png" media="screen and (device-width: 820px) and (device-height: 1180px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="ios-launch/820x1180-2x-landscape.png" media="screen and (device-width: 820px) and (device-height: 1180px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="ios-launch/834x1194-2x-portrait.png" media="screen and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="ios-launch/834x1194-2x-landscape.png" media="screen and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="ios-launch/834x1210-2x-portrait.png" media="screen and (device-width: 834px) and (device-height: 1210px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="ios-launch/834x1210-2x-landscape.png" media="screen and (device-width: 834px) and (device-height: 1210px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="ios-launch/1024x1366-2x-portrait.png" media="screen and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="ios-launch/1024x1366-2x-landscape.png" media="screen and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+  <link rel="apple-touch-startup-image" href="ios-launch/1032x1376-2x-portrait.png" media="screen and (device-width: 1032px) and (device-height: 1376px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="ios-launch/1032x1376-2x-landscape.png" media="screen and (device-width: 1032px) and (device-height: 1376px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <title>OrderFlow</title>
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Inline bridge: shown until Flutter paints its first frame.
+       Keep it iconless so the browser/PWA preloader never shows a square logo. -->
+  <style>
+    html,
+    body,
+    #of-splash {
+      margin: 0;
+      background: #06080C;
+    }
+    #of-splash {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.16s ease-out;
+    }
+    #of-splash img {
+      width: clamp(220px, 60vmin, 260px);
+      height: clamp(220px, 60vmin, 260px);
+      object-fit: contain;
+    }
+    /* Flutter adds this class to <html> after its first painted frame. */
+    html.of-loaded #of-splash {
+      opacity: 0;
+      pointer-events: none;
+    }
+    #of-update {
+      position: fixed;
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      z-index: 10000;
+      display: none;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-radius: 14px;
+      color: #F4F7FB;
+      background: #1A2230;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, .35);
+      font: 500 14px/1.35 system-ui, sans-serif;
+    }
+    #of-update button {
+      flex: none;
+      border: 0;
+      border-radius: 10px;
+      padding: 8px 12px;
+      color: #061018;
+      background: #41D9FF;
+      font: inherit;
+      cursor: pointer;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #of-splash { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Pre-Flutter bridge matching the Flutter splash. -->
+  <div id="of-splash" aria-hidden="true">
+    <img src="icons/Icon-any-v2-512.png" alt="">
+  </div>
+  <div id="of-update" role="status" aria-live="polite">
+    <span>Доступне оновлення. Завершіть поточну дію, потім оновіть застосунок.</span>
+    <button type="button">Оновити</button>
+  </div>
+
+  <script src="orderflow_web.js"></script>
+
+  <!--
+    You can customize the "flutter_bootstrap.js" script.
+    This is useful to provide a custom configuration to the Flutter loader
+    or to give the user feedback during the initialization process.
+
+    For more details:
+    * https://docs.flutter.dev/platform-integration/web/initialization
+  -->
+  <script src="flutter_bootstrap.js" async></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', async () => {
+        const banner = document.getElementById('of-update');
+        const button = banner.querySelector('button');
+        let waitingWorker = null;
+
+        const showUpdate = (worker) => {
+          waitingWorker = worker;
+          banner.style.display = 'flex';
+        };
+        button.addEventListener('click', () => {
+          if (waitingWorker) waitingWorker.postMessage({ type: 'OF_ACTIVATE_UPDATE' });
+        });
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          // This only follows an explicit button press for an update.
+          window.location.reload();
+        });
+
+        const registration = await navigator.serviceWorker.register('sw.js');
+        if (registration.waiting) showUpdate(registration.waiting);
+        registration.addEventListener('updatefound', () => {
+          const worker = registration.installing;
+          if (!worker) return;
+          worker.addEventListener('statechange', () => {
+            if (worker.state === 'installed' && navigator.serviceWorker.controller) {
+              showUpdate(worker);
+            }
+          });
+        });
+      });
+    }
+  </script>
+</body>
+</html>
